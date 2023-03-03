@@ -1,13 +1,12 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import auth from '../../../firebase.init'
-// import useToken from '../../Hooks/useToken';
+import useToken from '../../Hooks/useToken';
 import SocialLogin from '../../Shared/SocialLogin/SocialLogin';
 
 const Login = () => {
-
 
     const [
         signInWithEmailAndPassword,
@@ -34,19 +33,23 @@ const Login = () => {
         setUserInfo({ ...userInfo, password: e.target.value })
     }
 
+
     let navigate = useNavigate();
     let location = useLocation();
-    // const [token] = useToken(user);
     let loadingElement;
+    let errorEmail;
 
     let from = location.state?.from?.pathname || "/";
 
-    if (user) {
-        //console.log(user);
-        navigate(from, { replace: true });
+
+
+
+    const handleSubmit = async e => {
+
+        e.preventDefault();
+        await signInWithEmailAndPassword(userInfo.email, userInfo.password);
+        e.target.reset();
     }
-
-
 
     if (loading) {
         // console.log('loading');
@@ -54,31 +57,24 @@ const Login = () => {
     }
 
     if (error) {
-        console.log("error", error.message)
+        console.log("error", error.message);
+        errorEmail = <p>error found</p>
     }
 
-    const handleSubmit = async e => {
-
-        e.preventDefault();
-        console.log("Login submit", userInfo.email, userInfo.password);
-        await signInWithEmailAndPassword(userInfo.email, userInfo.password);
-
-        const url = `http://localhost:5000/login`;
-        fetch(url, {
-            method: 'POST',
-            body: JSON.stringify({
-                email: userInfo?.email
-            }),
-            headers: {
-                'Content-type': 'application/json',
-            },
-        })
-            .then((res) => res.json())
-            .then((data) => console.log('accessToken', data));
-
-        // navigate(from, { replace: true });
-        e.target.reset();
+    if (!user) {
+        console.log("User not found")
+        return;
     }
+
+    const [token] = useToken(user);
+
+    useEffect(() => {
+
+        if (token) {
+            navigate(from, { replace: true });
+        }
+
+    }, [token])
 
     return (
         <div className='md:h-screen text-center max-w-xs mx-auto  flex items-center'>
@@ -99,8 +95,9 @@ const Login = () => {
                     <div className="mb-6">
 
                         <input onBlur={handlePassword} className="shadow appearance-none border border-current rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="password" />
-                        <p className="text-red-500 text-xs italic">Please choose a password.</p>
+                        {/* <p className="text-red-500 text-xs italic">Please choose a password.</p> */}
                     </div>
+                    {loadingElement}
                     <div className="flex items-center justify-between">
                         <button className="btn text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                             Sign In
