@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../../firebase.init'
@@ -7,25 +7,36 @@ import useToken from '../../Hooks/useToken';
 const SocialLogin = () => {
     const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
     let loadingElement;
-    
+
     let navigate = useNavigate();
     let location = useLocation();
-    const [token] = useToken(user);
+    // const [token] = useToken(user);
 
     let from = location.state?.from?.pathname || "/";
 
-    if (token) {
-        // console.log(user);
-        navigate(from, { replace: true });
-    }
+    // if (token) {
+    //     // console.log(user);
+    //     navigate(from, { replace: true });
+    // }
 
     if (loading) {
         console.log('loading');
-        loadingElement = <h1>Loading...</h1>
+        loadingElement = <span>Loading...</span>
     }
     if (error) {
         console.log("err0r")
     }
+
+    const [token] = useToken(user);
+
+    useEffect(() => {
+
+        if (token) {
+            navigate(from, { replace: true });
+        }
+
+    }, [token]);
+
     return (
         <div>
             <div className='pt-1'>

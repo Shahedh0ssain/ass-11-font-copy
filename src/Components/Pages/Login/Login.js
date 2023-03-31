@@ -4,9 +4,11 @@ import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import auth from '../../../firebase.init'
 import useToken from '../../Hooks/useToken';
+// import useToken from '../../Hooks/useToken';
 import SocialLogin from '../../Shared/SocialLogin/SocialLogin';
 
 const Login = () => {
+
 
     const [
         signInWithEmailAndPassword,
@@ -36,8 +38,8 @@ const Login = () => {
 
     let navigate = useNavigate();
     let location = useLocation();
+    let errorElement;
     let loadingElement;
-    let errorEmail;
 
     let from = location.state?.from?.pathname || "/";
 
@@ -52,19 +54,14 @@ const Login = () => {
     }
 
     if (loading) {
-        // console.log('loading');
-        loadingElement = <h1>Loading...</h1>
+        loadingElement = <span>Loading...</span>
     }
 
     if (error) {
-        console.log("error", error.message);
-        errorEmail = <p>error found</p>
+        console.log("error", error);
+        errorElement = <span className='text-red-500'>{error.message}</span>
     }
 
-    if (!user) {
-        console.log("User not found")
-        return;
-    }
 
     const [token] = useToken(user);
 
@@ -74,7 +71,7 @@ const Login = () => {
             navigate(from, { replace: true });
         }
 
-    }, [token])
+    }, [token]);
 
     return (
         <div className='md:h-screen text-center max-w-xs mx-auto  flex items-center'>
@@ -90,14 +87,15 @@ const Login = () => {
                     </div>
                     <div className="mb-4">
 
-                        <input onBlur={handleEmail} className="shadow appearance-none border border-current rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="email" />
+                        <input onBlur={handleEmail} className="shadow appearance-none border border-current rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="username" type="text" placeholder="email" required />
                     </div>
-                    <div className="mb-6">
-
-                        <input onBlur={handlePassword} className="shadow appearance-none border border-current rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="password" />
+                    <div className="mb-8">
+                        <input onBlur={handlePassword} className="shadow appearance-none border border-current rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="password" required />
                         {/* <p className="text-red-500 text-xs italic">Please choose a password.</p> */}
+                        {loadingElement}
+                        {errorElement}
                     </div>
-                    {loadingElement}
+
                     <div className="flex items-center justify-between">
                         <button className="btn text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                             Sign In

@@ -13,7 +13,7 @@ import Registration from './Components/Pages/Registration/Registration';
 import MyOrder from './Components/Pages/MyOrder/MyOrder';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import Blogs from './Components/Pages/Blogs/Blogs';
+// import Blogs from './Components/Pages/Blogs/Blogs';
 
 
 
@@ -29,7 +29,7 @@ function App() {
         {/* <Route path='/Managecar' element={<ManageCar />}></Route> */}
         <Route path="/login" element={<Login />}></Route>
         <Route path="/registration" element={<Registration />}></Route>
-        <Route path="/blogs" element={<Blogs />}></Route>
+        {/* <Route path="/blogs" element={<Blogs />}></Route> */}
         <Route
           path="/addproduct"
           element={

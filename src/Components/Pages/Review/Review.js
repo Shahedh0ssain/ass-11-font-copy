@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import ConfirmModal from '../../Shared/Modal/ConfirmModal';
 // import { useForm } from 'react-hook-form';
 
 
@@ -8,6 +9,8 @@ const Review = () => {
 
     const [product, setProduct] = useState({});
     let { id } = useParams();
+    const [toggleDeliver, setToggleDeliver] = useState(false);
+
     //const { register, handleSubmit } = useForm();
 
 
@@ -26,9 +29,9 @@ const Review = () => {
 
     const updateQuentity = event => {
         event.preventDefault();
-        
+
         const quantity = parseInt(product.quantity) + parseInt(event.target.quantity.value);
-      
+
 
         if (quantity > 0) {
 
@@ -53,7 +56,7 @@ const Review = () => {
             alert("Please Insart positive number ");
         }
     }
-   
+
 
     // try verson :
     // const QuentityDecrease = event => {
@@ -127,10 +130,8 @@ const Review = () => {
                     </h2>
                     <h2 className='card-title'>Quentity : {product?.quantity}</h2>
                     <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <button onClick={QuentityDecrease} className="w-full  my-2 btn hover:bg-red-500 hover:text-white" >deliver</button>
+                    <button onClick={() => setToggleDeliver(true)} className="w-full  my-2 btn hover:bg-red-500 hover:text-white" >deliver</button>
                     {/* <button className="btn hover:bg-red-600 w-full" onClick={QuentityDecrease}>deliver</button> */}
-
-
 
                     <form onSubmit={updateQuentity} className="form-control flex  items-center ">
                         <div className="input-group">
@@ -140,6 +141,15 @@ const Review = () => {
                     </form>
                 </div>
             </div>
+            {
+                toggleDeliver && <ConfirmModal
+                    // services={service}
+                    // btn={bool ? btn2 : btn}
+                    msg='Are you ready to deliver one item!!'
+                    // setDelete={setServiceDelete}
+                    handle={QuentityDecrease}
+                ></ConfirmModal>
+            }
         </div>
     );
 };

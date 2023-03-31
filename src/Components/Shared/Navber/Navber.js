@@ -1,15 +1,19 @@
 import { signOut } from 'firebase/auth';
+import { useState } from 'react';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link, NavLink } from 'react-router-dom';
 import auth from '../../../firebase.init';
 import useNav from '../../Hooks/useNav';
+import ConfirmModal from '../Modal/ConfirmModal';
 
 
 
 const Navber = () => {
 
   const [user] = useAuthState(auth);
+  const [toggleLogOut, setToggleLogOut] = useState(false);
+
   //console.log(user);
 
   const logout = () => {
@@ -18,16 +22,19 @@ const Navber = () => {
 
   };
   const { navbar, navbarLogo } = useNav();
+
+
+
   //${
   // navbar && "bg-white shadow-lg"
   //style="background-image: url("assets/img/shapes/texture-bg.png");"
   //navbar bg-base-100 container mx-auto drop-shadow-[0_35px_35px_rgba(0,0,0,0.25)] sticky top-0 z-20
-  
+
   return (
     <div style={{ backgroundColor: '#20232a' }} className={`navbar flex lg:justify-around border-gray-200 px-2 sm:px-8 py-2.5  w-full sticky top-0  z-50 transition-all bg-black ${navbar && "bg-white shadow-lg "}`}>
       <div className="navbar-start ">
         <div className="dropdown">
-          <label className=" lg:hidden btn btn-circle swap swap-rotate">
+          {/* <label className=" lg:hidden btn btn-circle swap swap-rotate">
 
             <input type="checkbox" />
 
@@ -35,6 +42,9 @@ const Navber = () => {
 
             <svg className="swap-on fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><polygon points="400 145.49 366.51 112 256 222.51 145.49 112 112 145.49 222.51 256 112 366.51 145.49 400 256 289.49 366.51 400 400 366.51 289.49 256 400 145.49" /></svg>
 
+          </label> */}
+          <label tabIndex={0} className="lg:hidden btn  btn-circle">
+            <svg className="swap-off fill-current" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 512 512"><path d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z" /></svg>
           </label>
           <ul tabIndex="0" className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
             <li style={{ color: 'red' }} className=''><Link to="/">Home</Link></li>
@@ -42,12 +52,11 @@ const Navber = () => {
               user ?
                 <>
 
-                  <li style={{ color: 'red' }} className=''><Link to="/orders">MY-Order</Link></li>
-                  <li style={{ color: 'red' }} className=''><Link to="/addproduct">A-product</Link></li>
-                  <li style={{ color: 'red' }} className=''><Link to="/Managecar"> M-product</Link></li>
-                  <li style={{ color: 'red' }} className=''><Link to="/Blogs">Blog</Link></li>
+                  <li style={{ color: 'red' }} className=''><Link to="/orders">My Items</Link></li>
+                  <li style={{ color: 'red' }} className=''><Link to="/addproduct">Add Items</Link></li>
+                  <li style={{ color: 'red' }} className=''><Link to="/Managecar">Manage Items </Link></li>
                   <li style={{ color: 'red' }} className=''><Link>{user?.displayName}</Link></li>
-                  <button style={{ color: 'red' }} onClick={logout}>Logout</button>
+                  <label for="my-modal-6" style={{ color: 'red' }} onClick={() => setToggleLogOut(true)}>Logout</label>
 
 
                 </>
@@ -71,17 +80,17 @@ const Navber = () => {
               <>
                 {/* <li style={{ color: 'red' }} className=''><NavLink to="/">Home</NavLink></li> */}
                 <li style={{ color: 'rgba(255, 255, 255, 0.8)' }} className='font-normal text-[18px]'><NavLink to="/home">Home</NavLink></li>
-                <li style={{ color: 'rgba(255, 255, 255, 0.8)' }} className='font-normal text-[18px]'><NavLink to="/orders">MY-Order</NavLink></li>
-                <li style={{ color: 'rgba(255, 255, 255, 0.8)' }} className='font-normal text-[18px]'><NavLink to="/addproduct">A-product</NavLink></li>
-                <li style={{ color: 'rgba(255, 255, 255, 0.8)' }} className='font-normal text-[18px]'><NavLink to="/Managecar"> M-product</NavLink></li>
-                <li style={{ color: 'rgba(255, 255, 255, 0.8)' }} className='font-normal text-[18px]'><NavLink to="/blogs">Blog</NavLink></li>
+                <li style={{ color: 'rgba(255, 255, 255, 0.8)' }} className='font-normal text-[18px]'><NavLink to="/orders">My Items</NavLink></li>
+                <li style={{ color: 'rgba(255, 255, 255, 0.8)' }} className='font-normal text-[18px]'><NavLink to="/addproduct">Add Items</NavLink></li>
+                <li style={{ color: 'rgba(255, 255, 255, 0.8)' }} className='font-normal text-[18px]'><NavLink to="/Managecar">Manage Items </NavLink></li>
                 <li style={{ color: 'rgba(255, 255, 255, 0.8)' }} className='font-normal text-[18px]'><Link>{user?.displayName}</Link></li>
-                <li><button style={{ color: 'rgba(255, 255, 255, 0.8)' }} className='font-normal text-[18px]' onClick={logout}>Logout</button></li>
+                <li><label for="my-modal-6" style={{ color: 'rgba(255, 255, 255, 0.8)' }} className='font-normal text-[18px]' onClick={() => setToggleLogOut(true)}>Logout</label></li>
 
               </>
               :
               <>
                 <li style={{ color: 'rgba(255, 255, 255, 0.8)' }} className='font-normal text-[18px]'><Link to="/">Home</Link></li>
+                {/* <li style={{ color: 'rgba(255, 255, 255, 0.8)' }} className='font-normal text-[18px]'><Link to="/blogs">Blogs</Link></li> */}
                 <li style={{ color: 'rgba(255, 255, 255, 0.8)' }} className='font-normal text-[18px]'><Link to="/login">Login</Link></li>
 
               </>
@@ -93,6 +102,15 @@ const Navber = () => {
       {/* <div class="navbar-end">
       <Link to="/login">Login</Link>
       </div> */}
+
+      {
+        toggleLogOut && <ConfirmModal
+          // service={  null}
+          btn='Logout'
+          msg="Are you sure Logout!!"
+          handle={logout}
+        ></ConfirmModal>
+      }
     </div>
 
     // <nav

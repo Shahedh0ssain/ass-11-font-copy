@@ -5,7 +5,7 @@ import Service from '../Service/Service';
 
 const Services = () => {
     const [services] = UseProducts();
- 
+
     const navigate = useNavigate();
 
     const showDetail = id => {
@@ -19,15 +19,17 @@ const Services = () => {
             <h1 className='pl-2 pb-5 text-4xl  md:text-6xl lg:text-6xl text-gray '>Find the Best Deals For You</h1>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-3  justify-items-center'>
                 {
-                    services.slice(0,6).map(service => <Service
+                    services.slice(0, 6).map(service => <Service
                         key={service._id}
                         btn='manage'
                         service={service}
                         handle={showDetail}
-                        bool={false} 
+                        bool={false}
+                        bool2={false}
                     ></Service>)
                 }
             </div>
+           
         </div>
     );
 };
