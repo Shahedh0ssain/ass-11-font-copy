@@ -23,7 +23,7 @@ const ManageCar = () => {
 
         console.log('Click', id);
         // const proceed = window.confirm('Confirm delete item?');
-        const url = `http://localhost:5000/ourcar/delete/${id}`;
+        const url = `https://ass-backend-11-copy.onrender.com/ourcar/delete/${id}`;
         fetch(url, {
             method: 'DELETE'
         })

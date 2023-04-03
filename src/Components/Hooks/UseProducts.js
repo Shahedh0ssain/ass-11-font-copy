@@ -5,7 +5,7 @@ const UseProducts = () => {
     const [services, setServices] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/ourcar')
+        fetch('https://ass-backend-11-copy.onrender.com/ourcar')
             .then(res => {
                 // console.log(res.json())
                 return res.json()

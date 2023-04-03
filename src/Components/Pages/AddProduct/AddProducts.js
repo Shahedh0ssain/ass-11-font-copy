@@ -23,7 +23,7 @@ const AddProducts = () => {
 
         // console.log("data send", datas);
 
-        fetch('http://localhost:5000/ourcar', {
+        fetch('https://ass-backend-11-copy.onrender.com/ourcar', {
             method: 'POST',
             body: JSON.stringify(datas),
             headers: {

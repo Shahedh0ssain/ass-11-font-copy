@@ -10,6 +10,7 @@ const Review = () => {
     const [product, setProduct] = useState({});
     let { id } = useParams();
     const [toggleDeliver, setToggleDeliver] = useState(false);
+    const [process, setProcess] = useState(false)
 
     //const { register, handleSubmit } = useForm();
 
@@ -17,7 +18,7 @@ const Review = () => {
 
     useEffect(() => {
 
-        let url = `http://localhost:5000/ourcar/${id}`;
+        let url = `https://ass-backend-11-copy.onrender.com/ourcar/${id}`;
         //console.log(id);
         fetch(url)
             .then(res => res.json())
@@ -38,9 +39,9 @@ const Review = () => {
             alert("updateCar added successfully");
 
             const updateCar = { quantity };
-            console.log(updateCar);
+            // console.log(updateCar);
 
-            fetch(`http://localhost:5000/ourcar/${id}`, {
+            fetch(`https://ass-backend-11-copy.onrender.com/ourcar/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -67,7 +68,7 @@ const Review = () => {
     //   const updateCar = { quantity };
     //   console.log(updateCar.quantity);
 
-    //     fetch(`http://localhost:5000/ourcar/${id}`, {
+    //     fetch(`https://ass-backend-11-copy.onrender.com/ourcar/${id}`, {
     //         method: "PUT",
     //         headers: {
     //             "Content-Type": "application/json",
@@ -86,15 +87,17 @@ const Review = () => {
 
 
     const QuentityDecrease = event => {
+
         event.preventDefault();
         const quantity = parseInt(product.quantity) - 1;
-        alert("items quentity decrease");
 
-        if (quantity >= 0) {
+
+
+        if (quantity > 0) {
             const updateCar = { quantity };
-            console.log(updateCar);
+            setProcess(true);
 
-            fetch(`http://localhost:5000/ourcar/${id}`, {
+            fetch(`https://ass-backend-11-copy.onrender.com/ourcar/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -103,14 +106,17 @@ const Review = () => {
             })
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log("Success:", data);
+                    // console.log("Success:", data);
                     //alert("items quentity decrease");
 
                 });
+
         } else {
             alert("Please add items ");
         }
-        console.log("click");
+        setProcess(false);
+        // console.log("click");
+
     }
 
 
@@ -130,8 +136,8 @@ const Review = () => {
                     </h2>
                     <h2 className='card-title'>Quentity : {product?.quantity}</h2>
                     <p>If a dog chews shoes whose shoes does he choose?</p>
-                    <button onClick={() => setToggleDeliver(true)} className="w-full  my-2 btn hover:bg-red-500 hover:text-white" >deliver</button>
-                    {/* <button className="btn hover:bg-red-600 w-full" onClick={QuentityDecrease}>deliver</button> */}
+                    {/* <button onClick={() => setToggleDeliver(true)} className={`w-full  my-2 btn hover:bg-red-500 hover:text-white ${process && "loading"}`} >deliver</button> */}
+                    <button className={`w-full  my-2 btn hover:bg-red-500 hover:text-white ${process && "loading"}`} onClick={QuentityDecrease}>deliver</button>
 
                     <form onSubmit={updateQuentity} className="form-control flex  items-center ">
                         <div className="input-group">

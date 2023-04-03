@@ -1,7 +1,7 @@
 import React, { Children } from 'react';
 
 const ConfirmModal = ({ service, handle, type, btn, msg }) => {
-    console.log(service, handle);
+    // console.log(service, handle);
     return (
         <div>
             {/* <!-- The button to open modal --> */}

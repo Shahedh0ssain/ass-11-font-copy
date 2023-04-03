@@ -15,7 +15,7 @@ const MyOrder = () => {
 
     const email = user?.email;
     console.log(email);
-    const url = `http://localhost:5000/orders?email=${email}`;
+    const url = `https://ass-backend-11-copy.onrender.com/orders?email=${email}`;
     fetch(url, {
       headers: {
         authorization: `Bearer ${localStorage.getItem('accessToken')}`
@@ -37,7 +37,7 @@ const MyOrder = () => {
   const handleDelete = id => {
 
     // console.log(id);
-    const url = `http://localhost:5000/ourcar/delete/${id}`;
+    const url = `https://ass-backend-11-copy.onrender.com/ourcar/delete/${id}`;
     fetch(url, {
       method: 'DELETE'
     })
